@@ -1,6 +1,9 @@
+// Contains all the code for the local storage components
+
 export default class KanbanAPI {
   static getItems(columnId) {
-    const column = read().find(column=> column.id == columnId);
+    // gets a reference to the column that the user is trying to retrieve
+    const column = read().find(column => column.id == columnId);
 
     if (!column) {
       return [];
@@ -8,8 +11,43 @@ export default class KanbanAPI {
 
     return column.items;
   }
+
+  static insertItem(columnId, content) {
+    const data = read();
+    const column = data.find(column => column.id == columnId);
+
+    const item = {
+      id: Math.floor(Math.random() * 100000),
+      content
+    };
+
+    if (!column) {
+      throw new Error("Column does not exist.");
+    }
+
+    column.items.push(item);
+    save(data);
+
+    return item;
+  }
+
+  static updateItem(itemId, newProps) {
+    const data = read();
+    const [item, currentColumn] = (() => {
+      for (const column of data) {
+        const item = column.items.find(item => item.id == itemId);
+        
+        if (item) {
+          return [item, column];
+        }
+      }
+    })();
+
+    console.log(item, currentColumn);
+  }
 }
 
+// reads from local storage directly using json
 function read() {
   const json = localStorage.getItem("kanban-data");
   
@@ -33,6 +71,7 @@ function read() {
   return JSON.parse(json);
 }
 
+// saves to local storage
 function save(data) {
-  localStorage.setItem("kanban-data", JSON.stringity(data));
+  localStorage.setItem("kanban-data", JSON.stringify(data));
 }
