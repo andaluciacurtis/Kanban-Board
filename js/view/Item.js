@@ -33,6 +33,15 @@ export default class Item {
         this.elements.input.removeEventListener("blur", onBlur);
         this.elements.root.parentElement.removeChild(this.elements.root);
       }
+    });
+
+    this.elements.root.addEventListener("dragstart", e => {
+      e.dataTransfer.setData("text", id);
+    });
+
+    // Prevents the id from getting copied to another box
+    this.elements.input.addEventListener("drop", e => {
+      e.preventDefault();
     })
   }
   
@@ -43,7 +52,7 @@ export default class Item {
 
     return range.createContextualFragment(`
     <div class="kanban__item">
-      <div class="kanban__item-input" contenteditable></div>
+      <div class="kanban__item-input" contenteditable draggable="true"></div>
     </div>
     `).children[0];
   }
