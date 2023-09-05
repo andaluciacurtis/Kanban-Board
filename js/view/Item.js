@@ -24,8 +24,6 @@ export default class Item {
       KanbanAPI.updateItem(id, {
         content: this.content
       });
-
-      console.log(newContent);
     };
 
     this.elements.input.addEventListener("blur", onBlur);
@@ -39,7 +37,7 @@ export default class Item {
     });
 
     this.elements.root.addEventListener("dragstart", e => {
-      e.dataTransfer.setData("text", id);
+      e.dataTransfer.setData("text/plain", id);
     });
 
     // Prevents the id from getting copied to another box
