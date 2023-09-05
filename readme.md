@@ -1,0 +1,1 @@
+Created by followng along with dcode's "How to Build a Kanban Board with JavaScript (No FrameWorks)" on YouTube. I claim none of this as my own, it is merely for practice.
